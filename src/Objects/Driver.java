@@ -3,16 +3,23 @@ package Objects;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
 public class Driver {
     private String name;
     private String car;
+    private LocalDateTime dateIn;
+    private LocalDateTime dateOut;
 
-    public Driver(String name, String car) {
+    public Driver(String name, String car, LocalDateTime dateIn, LocalDateTime dateOut) {
         this.name = name;
         this.car = car;
+        this.dateIn = dateIn;
+        this.dateOut = dateOut;
     }
 
     public Driver() {
@@ -32,8 +39,9 @@ public class Driver {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
+        int rand = 10 + (int)(Math.random() * 200);
+        this.dateIn = LocalDateTime.now();
+        this.dateOut = dateIn.plusMinutes(rand);
     }
 
     public String getName() {
@@ -50,5 +58,21 @@ public class Driver {
 
     public void setCar(String car) {
         this.car = car;
+    }
+
+    public LocalDateTime getDateIn() {
+        return dateIn;
+    }
+
+    public void setDateIn(LocalDateTime dateIn) {
+        this.dateIn = dateIn;
+    }
+
+    public LocalDateTime getDateOut() {
+        return dateOut;
+    }
+
+    public void setDateOut(LocalDateTime dateOut) {
+        this.dateOut = dateOut;
     }
 }

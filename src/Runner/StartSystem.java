@@ -13,6 +13,8 @@ public class StartSystem {
         Driver driver = new Driver();
         System.out.println(driver.getName());
         System.out.println(driver.getCar());
+        System.out.println(driver.getDateIn());
+        System.out.println(driver.getDateOut());
 //        final Runtime runTime = Runtime.instance();
 //        runTime.setCloseVM(true);
 //        Profile mainProfile = new ProfileImpl(true);
