@@ -14,12 +14,14 @@ public class Driver {
     private String car;
     private LocalDateTime dateIn;
     private LocalDateTime dateOut;
+    private Location location;
 
-    public Driver(String name, String car, LocalDateTime dateIn, LocalDateTime dateOut) {
+    public Driver(String name, String car, LocalDateTime dateIn, LocalDateTime dateOut, Location location) {
         this.name = name;
         this.car = car;
         this.dateIn = dateIn;
         this.dateOut = dateOut;
+        this.location = location;
     }
 
     public Driver() {
@@ -42,6 +44,8 @@ public class Driver {
         int rand = 10 + (int)(Math.random() * 200);
         this.dateIn = LocalDateTime.now();
         this.dateOut = dateIn.plusMinutes(rand);
+        this.location.setLatitude((Math.random() * 100) - 50);
+        this.location.setLongitude((Math.random() * 100) - 50);
     }
 
     public String getName() {
