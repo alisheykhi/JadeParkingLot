@@ -1,6 +1,7 @@
 package Objects;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -9,7 +10,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
-public class Driver {
+public class Driver implements Serializable{
     private String name;
     private String car;
     private LocalDateTime dateIn;

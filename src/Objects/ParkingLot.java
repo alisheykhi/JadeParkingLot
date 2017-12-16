@@ -1,25 +1,30 @@
 package Objects;
 
+import jade.core.AID;
+
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
-public class ParkingLot {
+public class ParkingLot implements Serializable{
     private String name;
     private int capacity;
     private int availableSpace;
     private Location location;
+    private AID agentID;
 
-    public ParkingLot(String name, int capacity, Location location) {
+    public ParkingLot(String name, int capacity, Location location, AID agentID) {
         this.name = name;
         this.capacity = capacity;
         this.availableSpace = capacity;
         this.location = location;
+        this.agentID = agentID;
     }
 
-    public ParkingLot() {
+    public ParkingLot(AID agentID) {
         String parking  = "src/Names/Parking.txt";
         try (Stream<String> stream = Files.lines(Paths.get(parking))) {
             int index = ThreadLocalRandom.current().nextInt(1, 15);
@@ -27,24 +32,10 @@ public class ParkingLot {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.capacity =(int) Math.random() * 50;
-        this.location.setLatitude((Math.random() * 100)-50);
-        this.location.setLongitude((Math.random() * 100)-50);
-        this.availableSpace = capacity;
-    }
-
-    public ParkingLot(int capacity) {
-        String parking  = "src/Names/Parking.txt";
-        try (Stream<String> stream = Files.lines(Paths.get(parking))) {
-            int index = ThreadLocalRandom.current().nextInt(1, 15);
-            this.name = stream.toArray()[index].toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        this.capacity = capacity;
-        this.location.setLatitude((Math.random() * 100)-50);
-        this.location.setLongitude((Math.random() * 100)-50);
-        this.availableSpace = capacity;
+        this.capacity =(int) (Math.random() * 50);
+        this.location = new Location((Math.random() * 100)-50, (Math.random() * 100)-50) ;
+        this.availableSpace = (int) (Math.random() * this.capacity);
+        this.agentID = agentID;
     }
 
     public String getName() {

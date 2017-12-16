@@ -10,30 +10,47 @@ import Objects.Driver;
 
 public class StartSystem {
     public static void main(String args[]) throws InterruptedException, StaleProxyException {
-        Driver driver = new Driver();
-        System.out.println(driver.getName());
-        System.out.println(driver.getCar());
-        System.out.println(driver.getDateIn());
-        System.out.println(driver.getDateOut());
-//        final Runtime runTime = Runtime.instance();
-//        runTime.setCloseVM(true);
-//        Profile mainProfile = new ProfileImpl(true);
-//        AgentContainer mainContainer = runTime.createMainContainer(mainProfile);
-//        AgentController rma = mainContainer.createNewAgent("rma", "jade.tools.rma.rma", null);
-//        rma.start();
-//        Thread.sleep(900);
-//
-//
-//        Profile anotherProfile;
-//        AgentContainer anotherContainer;
-//        AgentController agent;
-//
-//        anotherProfile = new ProfileImpl(false);
-//        anotherContainer = runTime.createAgentContainer(anotherProfile);
-//        System.out.println("Starting up a Manager...");
-//        agent = anotherContainer.createNewAgent("manager", "Agents.Driver", null);
-//        agent.start();
-//        Thread.sleep(900);
+//        Driver driver = new Driver();
+//        System.out.println(driver.getName());
+//        System.out.println(driver.getCar());
+//        System.out.println(driver.getDateIn());
+//        System.out.println(driver.getDateOut());
+        final Runtime runTime = Runtime.instance();
+        runTime.setCloseVM(true);
+        Profile mainProfile = new ProfileImpl(true);
+        AgentContainer mainContainer = runTime.createMainContainer(mainProfile);
+        AgentController rma = mainContainer.createNewAgent("rma", "jade.tools.rma.rma", null);
+        rma.start();
+        Thread.sleep(900);
+
+
+        Profile anotherProfile;
+        AgentContainer anotherContainer;
+        AgentController agent;
+
+        anotherProfile = new ProfileImpl(false);
+        anotherContainer = runTime.createAgentContainer(anotherProfile);
+        System.out.println("Starting up a Manager...");
+        agent = anotherContainer.createNewAgent("Parking Manager", "Agents.Manager", null);
+        agent.start();
+        Thread.sleep(900);
+
+        anotherProfile = new ProfileImpl(false);
+        anotherContainer = runTime.createAgentContainer(anotherProfile);
+        System.out.println("Starting up a Manager...");
+        agent = anotherContainer.createNewAgent("Parking", "Agents.Parking", null);
+        agent.start();
+        Thread.sleep(900);
+
+        System.out.println("Starting up a Manager...");
+        agent = anotherContainer.createNewAgent("Parking2r", "Agents.Parking", null);
+        agent.start();
+        Thread.sleep(900);
+
+        System.out.println("Starting up a Manager...");
+        agent = anotherContainer.createNewAgent("Parking1", "Agents.Parking", null);
+        agent.start();
+        Thread.sleep(900);
 
     }
 }
