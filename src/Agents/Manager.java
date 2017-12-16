@@ -57,20 +57,20 @@ public class Manager extends Agent {
                 }
                 System.out.println(getAID().getLocalName()+":\treceived register inform from " + parking.getName());
                 parkingList.add(parking);
-                updateUI();
+                updateUI(parking);
                 }
         }
     }
 
-    private void updateUI(){
-        String[][] list = new String[parkingList.size()][3];
-        for (int i=0; i<parkingList.size();i++){
-            list[i][0] = parkingList.get(i).getName();
-            list[i][1] = Integer.toString(parkingList.get(i).getCapacity());
-            list[i][2] = Integer.toString(parkingList.get(i).getAvailableSpace());
-        }
-        gui.updateList(list);
-
+    private void updateUI(ParkingLot pl){
+//        String[][] list = new String[parkingList.size()][3];
+//        for (int i=0; i<parkingList.size();i++){
+//            list[i][0] = parkingList.get(i).getName();
+//            list[i][1] = Integer.toString(parkingList.get(i).getCapacity());
+//            list[i][2] = Integer.toString(parkingList.get(i).getAvailableSpace());
+//        }
+        String[] list = {pl.getName(),Integer.toString(pl.getCapacity()),Integer.toString(pl.getAvailableSpace())};
+        gui.setRows(list);
     }
 
 
