@@ -1,6 +1,7 @@
 package Agents;
 
 import Objects.ParkingLot;
+import Objects.ParkingStructure;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
@@ -15,6 +16,7 @@ import java.io.IOException;
 public class Parking extends Agent{
     private ParkingLot agent;
     private AID[] managers;
+    private ParkingStructure structure;
     @Override
     protected void setup() {
         agent = new ParkingLot(this.getAID());
@@ -34,6 +36,8 @@ public class Parking extends Agent{
         catch (FIPAException fe) {
             fe.printStackTrace();
         }
+
+        structure = new ParkingStructure(agent.getName());
         addBehaviour(new SignUp());
     }
     private class SignUp extends Behaviour {
