@@ -19,7 +19,9 @@ public class Parking extends Agent{
     private ParkingStructure structure;
     @Override
     protected void setup() {
-        agent = new ParkingLot(this.getAID());
+
+        agent = (ParkingLot) this.getArguments()[0];
+        agent.setAgentID(this.getAID());
         System.out.println(getAID().getLocalName()+":\tHello! Parking "+agent.getName() + " is ready.");
         DFAgentDescription template = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();

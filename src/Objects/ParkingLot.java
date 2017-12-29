@@ -24,7 +24,11 @@ public class ParkingLot implements Serializable{
         this.agentID = agentID;
     }
 
-    public ParkingLot(AID agentID) {
+    public ParkingLot(String name) {
+        this.name = name;
+    }
+
+    public ParkingLot() {
         String parking  = "src/Names/Parking.txt";
         try (Stream<String> stream = Files.lines(Paths.get(parking))) {
             int index = ThreadLocalRandom.current().nextInt(1, 15);
@@ -35,7 +39,6 @@ public class ParkingLot implements Serializable{
         this.capacity =(int) (Math.random() * 50);
         this.location = new Location((Math.random() * 100)-50, (Math.random() * 100)-50) ;
         this.availableSpace = (int) (Math.random() * this.capacity);
-        this.agentID = agentID;
     }
 
     public String getName() {
@@ -68,5 +71,13 @@ public class ParkingLot implements Serializable{
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public AID getAgentID() {
+        return agentID;
+    }
+
+    public void setAgentID(AID agentID) {
+        this.agentID = agentID;
     }
 }

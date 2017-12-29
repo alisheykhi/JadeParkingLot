@@ -45,8 +45,7 @@ public class Driver implements Serializable{
         int rand = 10 + (int)(Math.random() * 200);
         this.dateIn = LocalDateTime.now();
         this.dateOut = dateIn.plusMinutes(rand);
-        this.location.setLatitude((Math.random() * 100) - 50);
-        this.location.setLongitude((Math.random() * 100) - 50);
+        this.location = new Location((Math.random() * 100) - 50, (Math.random() * 100) - 50);
     }
 
     public String getName() {
@@ -79,5 +78,13 @@ public class Driver implements Serializable{
 
     public void setDateOut(LocalDateTime dateOut) {
         this.dateOut = dateOut;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

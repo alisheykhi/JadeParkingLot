@@ -40,7 +40,10 @@ public class ManagerGUI extends JFrame {
         contentPane.add(lblIAvPa);
     }
 
-        public void setRows(String[] list){
+    public void setRows(String[] list){
         tableModel.addRow(list);
+    }
+    public void updateTable(int row, String count){
+        tableModel.setValueAt(count, row, 2);
     }
 }
