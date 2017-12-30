@@ -1,5 +1,6 @@
 package Runner;
 
+import Objects.LogViewer;
 import Objects.ParkingLot;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
@@ -7,20 +8,19 @@ import jade.core.Runtime;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
-import Objects.Driver;
+
 
 public class StartSystem {
+    static LogViewer log;
     public static void main(String args[]) throws InterruptedException, StaleProxyException {
-//        Driver driver = new Driver();
-//        System.out.println(driver.getName());
-//        System.out.println(driver.getCar());
-//        System.out.println(driver.getDateIn());
-//        System.out.println(driver.getDateOut());
+        log = new LogViewer();
+        log.setVisible(true);
         final Runtime runTime = Runtime.instance();
         runTime.setCloseVM(true);
         Profile mainProfile = new ProfileImpl(true);
         AgentContainer mainContainer = runTime.createMainContainer(mainProfile);
         AgentController rma = mainContainer.createNewAgent("rma", "jade.tools.rma.rma", null);
+        log.add("Runner\t=>\tStarting Up RMA");
         rma.start();
         Thread.sleep(900);
 
@@ -41,19 +41,19 @@ public class StartSystem {
         anotherProfile = new ProfileImpl(false);
         anotherContainer = runTime.createAgentContainer(anotherProfile);
         System.out.println("Starting up a parking...");
-        agent = anotherContainer.createNewAgent(parking1.getName(), "Agents.Parking", new Object[]{ parking1});
+        agent = anotherContainer.createNewAgent(parking1.getName(), "Agents.Parking", new Object[]{ parking1,log});
         agent.start();
         Thread.sleep(900);
 
         ParkingLot parking2 = new ParkingLot();
         System.out.println("Starting up a parking...");
-        agent = anotherContainer.createNewAgent(parking2.getName(), "Agents.Parking", new Object[]{ parking2});
+        agent = anotherContainer.createNewAgent(parking2.getName(), "Agents.Parking", new Object[]{ parking2,log});
         agent.start();
         Thread.sleep(900);
 
         ParkingLot parking3 = new ParkingLot();
         System.out.println("Starting up a parking...");
-        agent = anotherContainer.createNewAgent(parking3.getName(), "Agents.Parking", new Object[]{ parking3});
+        agent = anotherContainer.createNewAgent(parking3.getName(), "Agents.Parking", new Object[]{ parking3,log});
         agent.start();
         Thread.sleep(900);
 

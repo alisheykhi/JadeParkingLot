@@ -1,5 +1,6 @@
 package Agents;
 
+import Objects.LogViewer;
 import Objects.ParkingLot;
 import Objects.ParkingStructure;
 import jade.core.AID;
@@ -17,12 +18,15 @@ public class Parking extends Agent{
     private ParkingLot agent;
     private AID[] managers;
     private ParkingStructure structure;
+    private LogViewer log;
     @Override
     protected void setup() {
 
         agent = (ParkingLot) this.getArguments()[0];
+        log = (LogViewer) this.getArguments()[1];
         agent.setAgentID(this.getAID());
         System.out.println(getAID().getLocalName()+":\tHello! Parking "+agent.getName() + " is ready.");
+        log.add(getAID().getLocalName()+"\t=>\tHello! Parking "+agent.getName() + " is ready" );
         DFAgentDescription template = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();
         sd.setType("Manager");
