@@ -1,5 +1,6 @@
 package Agents;
 
+import Objects.LogViewer;
 import Objects.ParkingLot;
 import jade.core.AID;
 import jade.core.Agent;
@@ -16,14 +17,18 @@ import jade.lang.acl.UnreadableException;
 
 import java.io.IOException;
 
-public class Car extends Agent{
+public class Car extends Agent {
     private AID[] managers;
-    private Driver driver ;
+    private Driver driver;
     private ParkingLot parkingLot;
+    private LogViewer log;
+
     @Override
     protected void setup() {
         driver = new Driver();
-        System.out.println(driver.getName()+" ("+driver.getCar()+") arrived.");
+        log = (LogViewer) this.getArguments()[0];
+        //System.out.println(driver.getName()+" ("+driver.getCar()+") arrived.");
+        log.add(new String[]{"[Car Agent]", getAID().getLocalName(), "Hello! Driver " + driver.getName() + " (" + driver.getCar() + ") is ready"});
         DFAgentDescription template = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();
         sd.setType("Manager");
@@ -40,12 +45,13 @@ public class Car extends Agent{
         }
 
         addBehaviour(new getParkingName());
-
     }
 
-    private class getParkingName extends Behaviour{
+    private class getParkingName extends Behaviour {
         private int step = 0;
         private MessageTemplate mt;
+        private MessageTemplate template;
+
         public void action() {
             switch (step) {
                 case 0:
@@ -63,7 +69,8 @@ public class Car extends Agent{
                     req.setReplyWith("REQUEST" + System.currentTimeMillis());
                     req.setConversationId("Find parking");
                     myAgent.send(req);
-                    System.out.println(driver.getName() + ":\tSend request (find parking lot) to manager " + managers[0].getLocalName());
+                    log.add(new String[]{"[Car Agent]", getAID().getLocalName(), "Send request (find parking lot) to manager " + managers[0].getLocalName()});
+                    //System.out.println(driver.getName() + ":\tSend request (find parking lot) to manager " + managers[0].getLocalName());
                     mt = MessageTemplate.and(MessageTemplate.MatchConversationId("Find parking"),
                             MessageTemplate.MatchInReplyTo(req.getReplyWith()));
                     step = 1;
@@ -75,30 +82,73 @@ public class Car extends Agent{
                         // Reply received
                         if (reply.getPerformative() == ACLMessage.INFORM) {
                             try {
-                                 parkingLot= (ParkingLot) reply.getContentObject();
+                                parkingLot = (ParkingLot) reply.getContentObject();
                             } catch (UnreadableException e) {
                                 e.printStackTrace();
                             }
-                            if (parkingLot.getName().equals("Unknown")){
+                            if (parkingLot.getName().equals("Unknown")) {
                                 System.out.println("there is no empty parking lot");
                                 break;
                             }
-                            System.out.println(driver.getName()+": reserved parking is "+ parkingLot.getName());
+                            log.add(new String[]{"[Car Agent]", getAID().getLocalName(), "reserved parking is " + parkingLot.getName()});
+                            //System.out.println(driver.getName()+": reserved parking is "+ parkingLot.getName());
                         }
                         step = 2;
+                    } else {
+                        block();
                     }
-                    else {
+                    break;
+                case 2:
+                    try {
+                        Thread.sleep(900);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    //send request to parking
+                    ACLMessage parkingReq = new ACLMessage(ACLMessage.REQUEST);
+                    parkingReq.addReceiver(parkingLot.getAgentID());
+                    try {
+                        parkingReq.setContentObject(driver);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    parkingReq.setReplyWith("REQUEST" + System.currentTimeMillis());
+                    parkingReq.setConversationId("Accept");
+                    myAgent.send(parkingReq);
+                    log.add(new String[]{"[Car Agent]", getAID().getLocalName(), "Send Accept request to parking " + parkingLot.getName()});
+                    //System.out.println(driver.getName() + ":\tSend request (find parking lot) to manager " + managers[0].getLocalName());
+                    template = MessageTemplate.and(MessageTemplate.MatchConversationId("Accept"),
+                            MessageTemplate.MatchInReplyTo(parkingReq.getReplyWith()));
+                    step = 3;
+                    break;
+                case 3:
+                    // receive from parking
+                    ACLMessage Aceptreply = myAgent.receive(template);
+                    if (Aceptreply != null) {
+                        // Reply received
+                        if (Aceptreply.getPerformative() == ACLMessage.INFORM) {
+                            String inform = Aceptreply.getContent();
+                            if (inform.contains("Welcome")) {
+                                log.add(new String[]{"[Car Agent]", getAID().getLocalName(), "received inform from parking " + parkingLot.getName()});
+                                break;
+                            }
+                            else{
+                                log.add(new String[]{"[Car Agent]", getAID().getLocalName(), "reject inform from parking " + parkingLot.getName()});
+                                break;
+                            }
+
+                            //System.out.println(driver.getName()+": reserved parking is "+ parkingLot.getName());
+                        }
+                        step = 4;
+                    } else {
                         block();
                     }
                     break;
             }
-
         }
-
-        public boolean done(){
-            return (step == 2);
+        public boolean done() {
+            return (step == 4);
         }
     }
-
 
 }

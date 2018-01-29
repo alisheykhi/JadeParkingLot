@@ -5,6 +5,7 @@ import org.jgraph.JGraph;
 import org.jgraph.graph.*;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
@@ -14,6 +15,9 @@ public class ParkingStructure {
     DefaultGraphCell[] cells;
     JFrame frame;
     Boolean [] slot;
+    private JTable parkingTable;
+    private String[] column = {"Capacity","Available","reserved"};
+    private DefaultTableModel tableModel;
 
     public ParkingStructure(String title) {
         slot = new Boolean[31];
@@ -99,6 +103,12 @@ public class ParkingStructure {
         // Insert the cells via the cache, so they get selected
         graph.getGraphLayoutCache().insert(cells);
 
+        tableModel = new DefaultTableModel(column, 0);
+        parkingTable = new JTable(tableModel);
+        parkingTable.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        parkingTable.setBounds(50, 360, 230, 100);
+//        frame.getContentPane().add(new JScrollPane(parkingTable));
+
         // Show in Frame
         frame = new JFrame();
         frame.getContentPane().add(new JScrollPane(graph));
@@ -107,6 +117,17 @@ public class ParkingStructure {
         frame.pack();
         frame.setVisible(true);
 
+
+
+
+
+//        frame.add(parkingTable, BorderLayout.CENTER);
+//        frame.add(parkingTable.getTableHeader(), BorderLayout.NORTH);
+
+    }
+
+    public void setRows(String[] list){
+        tableModel.addRow(list);
     }
 
     private static DefaultGraphCell createVertex(String name, double x,
@@ -114,11 +135,9 @@ public class ParkingStructure {
 
         // Create vertex with the given name
         DefaultGraphCell cell = new DefaultGraphCell(name);
-
         // Set bounds
         GraphConstants.setBounds(cell.getAttributes(),
                 new Rectangle2D.Double(x, y, w, h));
-
         // Set fill color
         if (bg != null) {
             GraphConstants.setGradientColor(cell.getAttributes(), bg);

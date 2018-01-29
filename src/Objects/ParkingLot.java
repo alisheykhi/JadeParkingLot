@@ -9,19 +9,21 @@ import java.nio.file.Paths;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
-public class ParkingLot implements Serializable{
+public class ParkingLot implements Serializable {
     private String name;
     private int capacity;
     private int availableSpace;
+    private int reserved;
     private Location location;
     private AID agentID;
 
-    public ParkingLot(String name, int capacity, Location location, AID agentID) {
+    public ParkingLot(String name, int capacity, Location location, AID agentID, int reserved) {
         this.name = name;
         this.capacity = capacity;
         this.availableSpace = capacity;
         this.location = location;
         this.agentID = agentID;
+        this.reserved = reserved;
     }
 
     public ParkingLot(String name) {
@@ -29,16 +31,19 @@ public class ParkingLot implements Serializable{
     }
 
     public ParkingLot() {
-        String parking  = "src/Names/Parking.txt";
+        String parking = "src/Names/Parking.txt";
         try (Stream<String> stream = Files.lines(Paths.get(parking))) {
             int index = ThreadLocalRandom.current().nextInt(1, 15);
             this.name = stream.toArray()[index].toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.capacity =(int) (Math.random() * 50);
-        this.location = new Location((Math.random() * 100)-50, (Math.random() * 100)-50) ;
-        this.availableSpace = (int) (Math.random() * this.capacity);
+        //this.capacity =(int) (Math.random() * 50);
+        this.capacity = 31;
+        this.location = new Location((Math.random() * 100) - 50, (Math.random() * 100) - 50);
+        //this.availableSpace = (int) (Math.random() * this.capacity);
+        this.availableSpace = 31;
+        this.reserved = 0;
     }
 
     public String getName() {
@@ -80,4 +85,13 @@ public class ParkingLot implements Serializable{
     public void setAgentID(AID agentID) {
         this.agentID = agentID;
     }
+
+    public int getReserved() {
+        return reserved;
+    }
+
+    public void setReserved(int reserved) {
+        this.reserved = reserved;
+    }
+
 }
