@@ -50,20 +50,20 @@ public class StartSystem {
         agent.start();
         Thread.sleep(900);
 
-        ParkingLot parking2 = new ParkingLot();
-        //System.out.println("Starting up a parking...");
-
-        log.add(new String[]{"[Runner Object]","Runner", "Starting up parking lot "+parking2.getName()});
-        agent = anotherContainer.createNewAgent(parking2.getName(), "Agents.Parking", new Object[]{ parking2,log});
-        agent.start();
-        Thread.sleep(900);
-
-        ParkingLot parking3 = new ParkingLot();
-        //System.out.println("Starting up a parking...");
-        log.add(new String[]{"[Runner Object]","Runner", "Starting up parking lot "+parking3.getName()});
-        agent = anotherContainer.createNewAgent(parking3.getName(), "Agents.Parking", new Object[]{ parking3,log});
-        agent.start();
-        Thread.sleep(900);
+//        ParkingLot parking2 = new ParkingLot();
+//        //System.out.println("Starting up a parking...");
+//
+//        log.add(new String[]{"[Runner Object]","Runner", "Starting up parking lot "+parking2.getName()});
+//        agent = anotherContainer.createNewAgent(parking2.getName(), "Agents.Parking", new Object[]{ parking2,log});
+//        agent.start();
+//        Thread.sleep(900);
+//
+//        ParkingLot parking3 = new ParkingLot();
+//        //System.out.println("Starting up a parking...");
+//        log.add(new String[]{"[Runner Object]","Runner", "Starting up parking lot "+parking3.getName()});
+//        agent = anotherContainer.createNewAgent(parking3.getName(), "Agents.Parking", new Object[]{ parking3,log});
+//        agent.start();
+//        Thread.sleep(900);
 
 
         Profile driverProfile;
@@ -72,7 +72,7 @@ public class StartSystem {
 
         driverProfile = new ProfileImpl(false);
         driverContainer = runTime.createAgentContainer(driverProfile);
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             log.add(new String[]{"[Runner Object]","Runner", "Starting up a Driver" });
             //System.out.println("Starting up a Driver...");
             driver = driverContainer.createNewAgent("Driver"+i, "Agents.Car", new Object[]{log});

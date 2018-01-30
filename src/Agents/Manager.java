@@ -41,7 +41,7 @@ public class Manager extends Agent {
         } catch (FIPAException fe) {
             fe.printStackTrace();
         }
-        log.add(new String[]{"[Manager Agent]",getAID().getLocalName(), "Hello! Manager "+getAID().getName() + " is ready"});
+        log.add(new String[]{"[Manager Agent]",getAID().getLocalName(), "Hello! Manager "+getAID().getLocalName() + " is ready"});
         //System.out.println(getAID().getLocalName()+":\tHello! Manager \"" + getAID().getLocalName()+ "\" is ready.");
 
         addBehaviour(new RegisterParking());
@@ -72,10 +72,10 @@ public class Manager extends Agent {
     private class MapDriverToParking extends CyclicBehaviour {
         ParkingLot parking;
         Driver driver;
-        double distance = 100000.00;
-        double tempDistance;
         Location dummy = new Location();
         public void action() {
+            double distance = 100000.00;
+            double tempDistance;
             MessageTemplate mt = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.REQUEST),
                     MessageTemplate.MatchConversationId("Find parking"));
             ACLMessage msg = this.myAgent.receive(mt);
@@ -89,7 +89,7 @@ public class Manager extends Agent {
                 log.add(new String[]{"[Manager Agent]",getAID().getLocalName(), "received parking request from " + driver.getName() });
                 //System.out.println(getAID().getLocalName()+":\treceived parking request from " + driver.getName());
                 for (ParkingLot parkinglot: parkingList){
-                    if(parkinglot.getAvailableSpace() != 0){
+                    if((parkinglot.getAvailableSpace()-parkinglot.getReserved()) > 0 ){
                         tempDistance = dummy.distanceByLocation(driver.getLocation(), parkinglot.getLocation());
                         if (tempDistance < distance){
                             distance = tempDistance;
@@ -172,4 +172,6 @@ public class Manager extends Agent {
             }
         }
     }
+
+
 }

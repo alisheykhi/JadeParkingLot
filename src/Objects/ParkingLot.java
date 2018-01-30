@@ -33,16 +33,16 @@ public class ParkingLot implements Serializable {
     public ParkingLot() {
         String parking = "src/Names/Parking.txt";
         try (Stream<String> stream = Files.lines(Paths.get(parking))) {
-            int index = ThreadLocalRandom.current().nextInt(1, 15);
+            int index = ThreadLocalRandom.current().nextInt(1, 30);
             this.name = stream.toArray()[index].toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
         //this.capacity =(int) (Math.random() * 50);
-        this.capacity = 31;
+        this.capacity = 5;
         this.location = new Location((Math.random() * 100) - 50, (Math.random() * 100) - 50);
         //this.availableSpace = (int) (Math.random() * this.capacity);
-        this.availableSpace = 31;
+        this.availableSpace = 5;
         this.reserved = 0;
     }
 
