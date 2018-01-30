@@ -39,10 +39,10 @@ public class ParkingLot implements Serializable {
             e.printStackTrace();
         }
         //this.capacity =(int) (Math.random() * 50);
-        this.capacity = 5;
+        this.capacity = 31;
         this.location = new Location((Math.random() * 100) - 50, (Math.random() * 100) - 50);
         //this.availableSpace = (int) (Math.random() * this.capacity);
-        this.availableSpace = 5;
+        this.availableSpace = 31;
         this.reserved = 0;
     }
 

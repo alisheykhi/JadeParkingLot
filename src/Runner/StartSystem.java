@@ -72,7 +72,7 @@ public class StartSystem {
 
         driverProfile = new ProfileImpl(false);
         driverContainer = runTime.createAgentContainer(driverProfile);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 10; i++) {
             log.add(new String[]{"[Runner Object]","Runner", "Starting up a Driver" });
             //System.out.println("Starting up a Driver...");
             driver = driverContainer.createNewAgent("Driver"+i, "Agents.Car", new Object[]{log});

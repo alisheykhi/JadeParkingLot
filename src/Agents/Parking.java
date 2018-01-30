@@ -275,10 +275,25 @@ public class Parking extends Agent {
                     }
                     step = 4;
                     break;
+                case 4:
+                    // Receive the parking order reply
+                    //mt = MessageTemplate.and(MessageTemplate.MatchConversationId("ClaimCar"));
+                    mt = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
+                    mt.MatchConversationId("ClaimCar");
+                    ACLMessage exitReq = myAgent.receive(mt);
+                    if (exitReq != null) {
+                        // Purchase order reply received
+                        if (exitReq.getPerformative() == ACLMessage.REQUEST) {
+                            // parking successful.
+                            log.add(new String[]{"[Parking Agent]", getAID().getLocalName(), "claim request from  " + driver.getName()});
+                        }
+                    }
+                    step = 5;
+                    break;
             }
         }
         public boolean done() {
-            return ((step == 2 && bestValet == null) || step == 4);
+            return ((step == 2 && bestValet == null) || step == 5);
         }
     }
 

@@ -16,6 +16,7 @@ import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 
 import java.io.IOException;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Car extends Agent {
     private AID[] managers;
@@ -140,14 +141,26 @@ public class Car extends Agent {
                             //System.out.println(driver.getName()+": reserved parking is "+ parkingLot.getName());
                         }
                         step = 4;
-                    } else {
-                        block();
                     }
+                    break;
+                case 4:
+                    // exit request
+
+                    try {
+                        Thread.sleep(ThreadLocalRandom.current().nextInt(10000, 100000));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    ACLMessage exitReq = new ACLMessage(ACLMessage.REQUEST);
+                    exitReq.setConversationId("ClaimCar");
+                    exitReq.setContent("Get it back!");
+                    myAgent.send(exitReq);
+                    step = 5;
                     break;
             }
         }
         public boolean done() {
-            return (step == 4);
+            return (step == 5);
         }
     }
 

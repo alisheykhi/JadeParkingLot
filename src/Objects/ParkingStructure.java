@@ -201,8 +201,10 @@ public class ParkingStructure {
         GraphConstants.setGradientColor(cells[random].getAttributes(),Color.RED);
 //        graph.refresh();
 //        graph.updateUI();
-        graph.getGraphLayoutCache().update();
-        frame.repaint();
+        graph.getModel().beginUpdate();
+        GraphConstants.setGradientColor(cells[random].getAttributes(),Color.RED);
+        graph.getModel().endUpdate();
+        graph.updateUI();
         return random;
     }
 
