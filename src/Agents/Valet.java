@@ -4,24 +4,26 @@ package Agents;
 import Objects.Driver;
 import Objects.LogViewer;
 import Objects.ParkingLot;
+import Objects.ParkingStructure;
 import jade.core.AID;
 import jade.core.Agent;
+import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
-
-import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Valet extends Agent{
     private ParkingLot parking;
+    private ParkingStructure structure;
     private LogViewer log;
     private AID[] valets;
     @Override
     protected void setup() {
         parking = (ParkingLot) this.getArguments()[0];
         log = (LogViewer) this.getArguments()[1];
+        structure = (ParkingStructure) this.getArguments()[2];
         log.add(new String[]{"[Valet Agent]", getAID().getLocalName(), "Hello, this is " + this.getLocalName() });
         ACLMessage signIn = new ACLMessage(ACLMessage.INFORM);
         signIn.setConversationId("SingInValet");
@@ -30,26 +32,8 @@ public class Valet extends Agent{
 //        addBehaviour(new AcceptCar());
         addBehaviour(new CarReceived());
         addBehaviour(new CarOrdersAccepted());
-
     }
-//    private class AcceptCar extends CyclicBehaviour {
-//        public void action() {
-//            Driver driver;
-//            MessageTemplate mt = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.CFP),
-//                    MessageTemplate.MatchConversationId("AcceptCar"));
-//            ACLMessage msg = this.myAgent.receive(mt);
-//            if (msg != null) {
-//                try {
-//                    driver = (Driver) msg.getContentObject();
-//                    log.add(new String[]{"[Valet Agent]", getAID().getLocalName(), "Accept new car " + driver.getName()});
-//                } catch (UnreadableException e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//            }
-//        }
-//    }
+
 
     private class CarReceived extends CyclicBehaviour {
         public void action() {
@@ -88,6 +72,7 @@ public class Valet extends Agent{
                     if (!driver.getName().equals("")) {
                         reply.setPerformative(ACLMessage.INFORM);
                         log.add(new String[]{"[Valet Agent]", getAID().getLocalName(), "handle new car " + driver.getName()});
+                        addBehaviour(new InsertCar());
                     } else {
                         reply.setPerformative(ACLMessage.FAILURE);
                         reply.setContent("Failed");
@@ -99,6 +84,20 @@ public class Valet extends Agent{
             }
         }
 
-    }  // End of inner class OfferRequestsServer
+    }
+
+    private class InsertCar extends Behaviour {
+        int done = 0;
+
+        public void action() {
+            int random = structure.getFreeLot();
+            System.out.println(random);
+            done++;
+        }
+
+        public boolean done() {
+            return done == 1;
+        }
+    }
 
 }

@@ -50,11 +50,12 @@ public class Parking extends Agent {
         } catch (FIPAException fe) {
             fe.printStackTrace();
         }
-
+        structure = new ParkingStructure(agent.getName());
+        structure.setRows(new String[]{Integer.toString(agent.getCapacity()), Integer.toString(agent.getCapacity()), Integer.toString(agent.getReserved())});
 
         for (int i = 0; i < 2; i++) {
             try {
-                AgentController agentController = this.getContainerController().createNewAgent("valet_" + i + "_" + agent.getName(), "Agents.Valet", new Object[]{agent, log});
+                AgentController agentController = this.getContainerController().createNewAgent("valet_" + i + "_" + agent.getName(), "Agents.Valet", new Object[]{agent, log, structure});
                 agentController.start();
                 Thread.sleep(90);
             } catch (StaleProxyException e) {
@@ -64,8 +65,6 @@ public class Parking extends Agent {
             }
         }
 
-        structure = new ParkingStructure(agent.getName());
-        structure.setRows(new String[]{Integer.toString(agent.getCapacity()), Integer.toString(agent.getCapacity()), Integer.toString(agent.getReserved())});
         addBehaviour(new SignUp());
         addBehaviour(new GetReservationInform());
         addBehaviour(new AcceptCar());
