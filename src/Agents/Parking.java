@@ -273,23 +273,28 @@ public class Parking extends Agent {
                             log.add(new String[]{"[Parking Agent]", getAID().getLocalName(), "car " + driver.getName() + " parked at " + reply.getContent()});
                         }
                     }
-                    step = 4;
-                    break;
-                case 4:
-                    // Receive the parking order reply
-                    //mt = MessageTemplate.and(MessageTemplate.MatchConversationId("ClaimCar"));
-                    mt = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
-                    mt.MatchConversationId("ClaimCar");
-                    ACLMessage exitReq = myAgent.receive(mt);
-                    if (exitReq != null) {
-                        // Purchase order reply received
-                        if (exitReq.getPerformative() == ACLMessage.REQUEST) {
-                            // parking successful.
-                            log.add(new String[]{"[Parking Agent]", getAID().getLocalName(), "claim request from  " + driver.getName()});
-                        }
-                    }
                     step = 5;
                     break;
+//                case 4:
+//                    // Receive the parking order reply
+//                    //mt = MessageTemplate.and(MessageTemplate.MatchConversationId("ClaimCar"));
+//                    mt = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
+//                    mt.MatchConversationId("ClaimCar");
+//                    ACLMessage exitReq = myAgent.receive(mt);
+//                    if (exitReq != null) {
+//                        try {
+//                            driver = (Driver) exitReq.getContentObject();
+//                        } catch (UnreadableException e) {
+//                            e.printStackTrace();
+//                        }
+//                        // Purchase order reply received
+//                        if (parked.containsKey(driver.getName())) {
+//                            log.add(new String[]{"[Parking Agent]", getAID().getLocalName(), "claim request from  " + driver.getName()});
+//
+//                        }
+//                    }
+//                    step = 5;
+//                    break;
             }
         }
         public boolean done() {

@@ -50,13 +50,13 @@ public class StartSystem {
         agent.start();
         Thread.sleep(900);
 
-//        ParkingLot parking2 = new ParkingLot();
-//        //System.out.println("Starting up a parking...");
-//
-//        log.add(new String[]{"[Runner Object]","Runner", "Starting up parking lot "+parking2.getName()});
-//        agent = anotherContainer.createNewAgent(parking2.getName(), "Agents.Parking", new Object[]{ parking2,log});
-//        agent.start();
-//        Thread.sleep(900);
+        ParkingLot parking2 = new ParkingLot();
+        //System.out.println("Starting up a parking...");
+
+        log.add(new String[]{"[Runner Object]","Runner", "Starting up parking lot "+parking2.getName()});
+        agent = anotherContainer.createNewAgent(parking2.getName(), "Agents.Parking", new Object[]{ parking2,log});
+        agent.start();
+        Thread.sleep(900);
 //
 //        ParkingLot parking3 = new ParkingLot();
 //        //System.out.println("Starting up a parking...");

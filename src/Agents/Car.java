@@ -101,7 +101,7 @@ public class Car extends Agent {
                     break;
                 case 2:
                     try {
-                        Thread.sleep(900);
+                        Thread.sleep(ThreadLocalRandom.current().nextInt(2000, 15000));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -140,23 +140,30 @@ public class Car extends Agent {
 
                             //System.out.println(driver.getName()+": reserved parking is "+ parkingLot.getName());
                         }
-                        step = 4;
+                        step = 5;
                     }
                     break;
-                case 4:
-                    // exit request
-
-                    try {
-                        Thread.sleep(ThreadLocalRandom.current().nextInt(10000, 100000));
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    ACLMessage exitReq = new ACLMessage(ACLMessage.REQUEST);
-                    exitReq.setConversationId("ClaimCar");
-                    exitReq.setContent("Get it back!");
-                    myAgent.send(exitReq);
-                    step = 5;
-                    break;
+//                case 4:
+//                    // exit request
+//
+//                    try {
+//                        Thread.sleep(ThreadLocalRandom.current().nextInt(10000, 100000));
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    ACLMessage exitReq = new ACLMessage(ACLMessage.REQUEST);
+//                    exitReq.setConversationId("ClaimCar");
+//                    try {
+//                        exitReq.setContentObject(driver);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    exitReq.addReceiver(parkingLot.getAgentID());
+//                    myAgent.send(exitReq);
+//                    log.add(new String[]{"[Car Agent]", getAID().getLocalName(), "claim request to parking" + parkingLot.getName()});
+//                    System.out.println("lololololo"+parkingLot.getName());
+//                    step = 5;
+//                    break;
             }
         }
         public boolean done() {
